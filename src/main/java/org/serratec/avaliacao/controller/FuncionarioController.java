@@ -19,17 +19,20 @@ public class FuncionarioController {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
 
+    // GET para listar TODOS os funcionários
     @GetMapping
     public ResponseEntity<List<Funcionario>> listarTodos() {
         return ResponseEntity.ok(funcionarioRepository.findAll());
     }
 
+    // GET para listar um funcionário(ID) específico
     @GetMapping("/{id}")
     public ResponseEntity<Funcionario> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(funcionarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ID inexistente" + id)));
     }
 
+    // POST para inserir um funcionário(ID)
     @PostMapping
     public ResponseEntity<Funcionario> inserir(@Valid @RequestBody Funcionario funcionario) {
         funcionario.setId(null);
@@ -37,6 +40,7 @@ public class FuncionarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoFuncionario);
     }
 
+    // PUT para atualizar um funcionário(ID)
     @PutMapping("/{id}")
     public ResponseEntity<Funcionario> atualizar(@PathVariable Long id, @Valid @RequestBody Funcionario funcionario) {
         if (!funcionarioRepository.existsById(id)) {
@@ -48,6 +52,7 @@ public class FuncionarioController {
         return ResponseEntity.ok(funcionarioAtualizado);
     }
 
+    // DELETE para remover um funcionário(ID)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
         if (!funcionarioRepository.existsById(id)) {
