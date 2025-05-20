@@ -29,7 +29,7 @@ public class FuncionarioController {
     @GetMapping("/{id}")
     public ResponseEntity<Funcionario> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(funcionarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ID inexistente" + id)));
+                .orElseThrow(() -> new EntityNotFoundException("ID inexistente: " + id)));
     }
 
     // POST para inserir um funcionário(ID)
@@ -44,7 +44,7 @@ public class FuncionarioController {
     @PutMapping("/{id}")
     public ResponseEntity<Funcionario> atualizar(@PathVariable Long id, @Valid @RequestBody Funcionario funcionario) {
         if (!funcionarioRepository.existsById(id)) {
-            throw new EntityNotFoundException("ID inexistente" + id);
+            throw new EntityNotFoundException("ID inexistente: " + id);
         }
 
         funcionario.setId(id);
